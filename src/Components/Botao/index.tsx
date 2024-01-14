@@ -3,12 +3,14 @@ import style from './Botao.module.scss'
 
 interface BotaoProps {
     children: ReactElement | string
+    type?: "button" | "submit" | "reset" | undefined
+    onClick?: () => void;
 }
 
-const Botao = (props : BotaoProps) => {
+const Botao = ({children, type="button", onClick} : BotaoProps) => { 
     return(
-        <button className={style.botao}>
-            {props.children}
+        <button onClick={onClick} type={type} className={style.botao}>
+            {children}
         </button>
     )
 }

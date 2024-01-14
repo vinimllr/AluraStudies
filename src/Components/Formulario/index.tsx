@@ -1,9 +1,27 @@
+import { useState } from "react"
 import Botao from "../Botao"
 import styles from './Formulario.module.scss'
+import Itarefa from "../../shared/interfaces/Itarefa"
+import { v4 as uuidv4 } from 'uuid';
 
-const Formulario = () => {
+interface FormularioProps{
+    aoAdicionarTarefa: (tarefa: Itarefa) => void
+}
+
+const Formulario = ({aoAdicionarTarefa}:FormularioProps) => {
+
+    const [tarefa, setTarefa] = useState("")
+    const [tempo, setTempo] = useState("")
+
+    function adicionarNovaTarefa(evento: React.FormEvent<HTMLFormElement>){
+        evento.preventDefault();
+        aoAdicionarTarefa({tarefa, tempo, selecionado: false, completado: false, id:uuidv4()})
+        setTarefa("")
+        setTempo("")
+    }
+
     return (
-        <form className={styles.novaTarefa}>
+        <form className={styles.novaTarefa} onSubmit={(event) => adicionarNovaTarefa(event)}>
             <div className={styles.inputContainer}>
                 <label htmlFor="tarefa">
                     Adicione um novo estudo
@@ -14,6 +32,8 @@ const Formulario = () => {
                     id="tarefa"
                     placeholder="O que você quer estudar"
                     required
+                    value={tarefa}
+                    onChange={(event) => setTarefa(event.target.value)}
                 />
             </div>
             <div className={styles.inputContainer}>
@@ -26,11 +46,13 @@ const Formulario = () => {
                     name="tempo"
                     id="tempo"
                     min="00:00:00"
-                    max="01:30:00"
+                    max="06:30:00"
                     required
+                    value={tempo}
+                    onChange={(event) => setTempo(event.target.value)}
                 />
             </div>
-            <Botao>
+            <Botao type="submit">
                 Adicionar
             </Botao>
                 

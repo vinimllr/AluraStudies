@@ -1,29 +1,26 @@
 import style from './Lista.module.scss'
 import Item from './Item';
+import Itarefa from '../../shared/interfaces/Itarefa';
 
-const Lista = () => {
+interface ListaProps{
+    listaDeTarefas: Itarefa[]
+    selecionarTarefa: (id: string) => void;
+}
 
-    const tarefas = [{
-        nomeDaTarefa: "React",
-        tempo: "02:00:00"
-    },
-    {
-        nomeDaTarefa: "JavaScript",
-        tempo: "03:00:00"
-    },
-    {
-        nomeDaTarefa: "TypeScript",
-        tempo: "04:00:00"
-    }]
+const Lista = ({listaDeTarefas, selecionarTarefa}: ListaProps) => {
     return(
         <aside className={style.listaTarefas}>
         <h2> Estudos do dia </h2>
         <ul>
-          {tarefas.map((tarefa, index) => 
+          {listaDeTarefas.map((tarefa) => 
           <Item
-              nome={tarefa.nomeDaTarefa}
+              selecionarTarefa={selecionarTarefa}
+              tarefa={tarefa.tarefa}
               tempo={tarefa.tempo}
-              key={index}
+              selecionado={tarefa.selecionado}
+              completado={tarefa.completado}
+              id={tarefa.id}
+              key={tarefa.id}
               ></Item>
           )}
         </ul>
